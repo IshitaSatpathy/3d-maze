@@ -27,6 +27,7 @@ export default class Maze {
         this.scene = new Scene()
         this.resources = new Resources(sources)
         this.camera = new Camera()
+        
         this.renderer = new Renderer()
         this.world = new World()
         

@@ -27,23 +27,23 @@ export default class Floor {
     {
         this.textures = {}
 
-        this.textures.color = this.resources.items.floorColorTexture
-        this.textures.color.encoding = sRGBEncoding
-        this.textures.color.repeat.set = (1.5,1.5)
-        this.textures.color.wrapS = RepeatWrapping
-        this.textures.color.wrapT = RepeatWrapping
+        // this.textures.color = this.resources.items.floorColorTexture
+        // this.textures.color.encoding = sRGBEncoding
+        // this.textures.color.repeat.set = (1.5,1.5)
+        // this.textures.color.wrapS = RepeatWrapping
+        // this.textures.color.wrapT = RepeatWrapping
         
-        this.textures.normal = this.resources.items.floorNormalTexture
-        this.textures.normal.repeat.set = (1.5,1.5)
-        this.textures.normal.wrapS = RepeatWrapping
-        this.textures.normal.wrapT = RepeatWrapping
+        // this.textures.normal = this.resources.items.floorNormalTexture
+        // this.textures.normal.repeat.set = (1.5,1.5)
+        // this.textures.normal.wrapS = RepeatWrapping
+        // this.textures.normal.wrapT = RepeatWrapping
     }
     
     setMaterial()
     {
         this.material = new MeshStandardMaterial({
-            // map : this.textures.color,
-            // normalMap : this.textures.normal,
+            map : this.textures.color,
+            normalMap : this.textures.normal,
             color: '#333333',
             roughness: 0.6,
         })

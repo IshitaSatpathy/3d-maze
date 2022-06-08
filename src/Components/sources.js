@@ -13,34 +13,34 @@ export default [
             `${resources}/environmentMap/bluecloud_ft.jpg`,
         ]
     },
-    {
-        name : 'floorColorTexture',
-        type : 'texture',
-        path : `${resources}/textures/floor_texture.jpg`
-    },
-    {
-        name : 'floorNormalTexture',
-        type : 'texture',
-        path : `${resources}/textures/floor_texture_normal.png`
-    },
+    // {
+    //     name : 'floorColorTexture',
+    //     type : 'texture',
+    //     path : `${resources}/textures/floor_texture.jpg`
+    // },
+    // {
+    //     name : 'floorNormalTexture',
+    //     type : 'texture',
+    //     path : `${resources}/textures/floor_texture_normal.png`
+    // },
     {
         name : 'PlayerModel',
         type : 'fbxModel',
-        path : `${resources}/models/ninja.fbx`
+        path : `${resources}/models/ybot.fbx`
     },
     {
         name : 'IdleAnimation',
         type : 'fbxModel',
-        path : `${resources}/animations/ninja/Idle.fbx`
+        path : `${resources}/animations/ybot/Idle.fbx`
     },
     {
         name : 'WalkAnimation',
         type : 'fbxModel',
-        path : `${resources}/animations/ninja/Sneak Walk.fbx`
+        path : `${resources}/animations/ybot/Walking.fbx`
     },
     {
         name : 'RunAnimation',
         type : 'fbxModel',
-        path : `${resources}/animations/ninja/Run.fbx`
+        path : `${resources}/animations/ybot/Fast Run.fbx`
     },
 ]
