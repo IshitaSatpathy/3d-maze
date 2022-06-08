@@ -16,12 +16,12 @@ export default [
     {
         name : 'floorColorTexture',
         type : 'texture',
-        path : `${resources}/textures/Marble_Tile.jpg`
+        path : `${resources}/textures/floor_texture.jpg`
     },
     {
         name : 'floorNormalTexture',
         type : 'texture',
-        path : `${resources}/textures/Marble_Tile_normal.png`
+        path : `${resources}/textures/floor_texture_normal.png`
     },
     {
         name : 'PlayerModel',
