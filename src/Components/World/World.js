@@ -1,4 +1,5 @@
 import CharacterController from "../Controllers/CharacterController"
+import FirstPersonCamera from "../FirstPersonCamera"
 import Maze from "../Maze"
 import ThirdPersonCamera from "../ThirdPersonCamera"
 import Environment from "./Environment"
@@ -20,8 +21,8 @@ export default class World {
             this.floor = new Floor()
             
             this.character = new CharacterController('PlayerModel')
-
             // this.thirdPersonCamera = new ThirdPersonCamera(this.character)
+            this.firstPersonCamera = new FirstPersonCamera(this.camera)
 
             this.environment = new Environment()
         })
@@ -34,6 +35,11 @@ export default class World {
         {
             this.character.update()
             // this.thirdPersonCamera.update()
+        }
+
+        if(this.firstPersonCamera)
+        {
+            this.firstPersonCamera.update()
         }
 
     }

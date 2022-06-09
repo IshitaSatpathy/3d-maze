@@ -13,25 +13,25 @@ export default [
             `${resources}/environmentMap/bluecloud_ft.jpg`,
         ]
     },
-    // {
-    //     name : 'floorColorTexture',
-    //     type : 'texture',
-    //     path : `${resources}/textures/floor_texture.jpg`
-    // },
-    // {
-    //     name : 'floorNormalTexture',
-    //     type : 'texture',
-    //     path : `${resources}/textures/floor_texture_normal.png`
-    // },
+    {
+        name : 'floorColorTexture',
+        type : 'texture',
+        path : `${resources}/textures/concrete3-albedo.png`
+    },
+    {
+        name : 'floorNormalTexture',
+        type : 'texture',
+        path : `${resources}/textures/concrete3-normal.png`
+    },
     {
         name : 'wallColorTexture',
         type : 'texture',
-        path : `${resources}/textures/Castle-Ashlar.jpg`
+        path : `${resources}/textures/concrete3-albedo.png`
     },
     {
         name : 'wallNormalTexture',
         type : 'texture',
-        path : `${resources}/textures/Castle-Ashlar_normal.png`
+        path : `${resources}/textures/concrete3-normal.png`
     },
     {
         name : 'PlayerModel',

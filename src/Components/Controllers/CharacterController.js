@@ -1,7 +1,8 @@
 import Maze from "../Maze"
-import InputController from "./InputController"
+import CharacterInput from "./CharacterInput"
 import CharacterFSM from "../Controllers/CharacterFSM/CharacterFSM"
 import { AnimationMixer, Quaternion, Vector3 } from "three"
+import { SkeletonHelper } from "three"
 
 export default class CharacterController {
 
@@ -19,10 +20,13 @@ export default class CharacterController {
         this.deceleration = new Vector3(-0.0005, -0.0001, -5.0)
         this.velocity = new Vector3(0,0,0)     
         
-        this.input = new InputController()
+        this.input = new CharacterInput()
 
         this.setModel()
         this.setAnimation()
+
+        this.helper = new SkeletonHelper(this.model)
+        this.scene.add(this.helper)
 
         this.stateMachine = new CharacterFSM(this.animation)
     }
@@ -73,8 +77,7 @@ export default class CharacterController {
     }
 
     setMovement()
-    {
-        
+    { 
         const v = this.velocity
 
         const FrameDeceleration = new Vector3(
@@ -97,7 +100,8 @@ export default class CharacterController {
         
         // Update Keys
         if (this.input.keys.shift) {
-            acc.multiplyScalar(2.0)
+            acc.multiplyScalar(3.5)
+            acc.y = 0.3
           }
       
         if (this.stateMachine.currentState && this.stateMachine.currentState.Name == 'jump') {
@@ -115,19 +119,19 @@ export default class CharacterController {
         }
 
         // Rotation
-        if (this.input.keys.left && this.input.keys.forward || this.input.keys.left && this.input.keys.backward) {
+        if (this.input.keys.left) {
             A.set(0, 1, 0)
             Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
         }
 
-        if (this.input.keys.right && this.input.keys.forward || this.input.keys.right && this.input.keys.backward) {
+        if (this.input.keys.right) {
             A.set(0, 1, 0)
             Q.setFromAxisAngle(A, 4.0 * -Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
         }
           
-        controlObject.quaternion.copy(R);
+        controlObject.quaternion.copy(R)
 
         // Update Position
         const oldPosition = new Vector3()
@@ -156,9 +160,7 @@ export default class CharacterController {
         if(!this.model)
             return
 
-        
         this.stateMachine.update(this.input)
-
         
         this.setMovement()
 

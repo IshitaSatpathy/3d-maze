@@ -1,5 +1,6 @@
 import { sRGBEncoding } from "three"
 import { MeshStandardMaterial } from "three"
+import { DirectionalLightHelper } from "three"
 import { AmbientLight } from "three"
 import { Mesh } from "three"
 import { DirectionalLight } from "three"
@@ -28,15 +29,18 @@ export default class Environment {
     setSunLight()
     {
         this.sunlight = new DirectionalLight(0xFFFFFF,3)
-        this.sunlight.position.set(100,100,100)
+        this.sunlight.position.set(-5,10,10)
         this.sunlight.target.position.set(0,0,0)
         this.sunlight.castShadow = true
         this.sunlight.shadow.mapSize.set = (2048,2048)
         this.sunlight.shadow.camera.near = 1.0
-        this.sunlight.shadow.camera.far = 1000
+        this.sunlight.shadow.camera.far = 500
         // this.sunlight.shadow.bias = 0.2
 
         this.scene.add(this.sunlight)
+
+        this.helper = new DirectionalLightHelper(this.sunlight)
+        this.scene.add(this.helper)
     }
 
     setEnvironmentMap()
