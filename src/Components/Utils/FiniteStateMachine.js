@@ -1,10 +1,12 @@
-class FiniteStateMachine {
+import { IdleState } from "../Controllers/CharacterFSM/States"
+
+export default class FiniteStateMachine {
 
     constructor()
     {
         // States
         this.states = {}
-        this.currentState = null
+        this.currentState = new IdleState(this)
 
     }
     
@@ -36,22 +38,4 @@ class FiniteStateMachine {
         if(this.currentState)
             this.currentState.update(input)
     }
-}
-
-
-
-class State {
-    constructor(parent)
-    {
-        this.parent = parent
-    }
-
-    enter() {}
-    exit() {}
-    update() {}
-}
-
-export {
-    FiniteStateMachine,
-    State,
 }

@@ -29,7 +29,7 @@ export default class World {
             this.floor = new Floor()
             
             // this.player = new Player()
-            this.character = new CharacterController()
+            this.character = new CharacterController('PlayerModel')
 
             this.environment = new Environment()
         })

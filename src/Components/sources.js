@@ -56,6 +56,6 @@ export default [
     {
         name : 'JumpAnimation',
         type : 'fbxModel',
-        path : `${resources}/animations/ybot/Jumping.fbx`
+        path : `${resources}/animations/ybot/Fast Jump.fbx`
     },
 ]

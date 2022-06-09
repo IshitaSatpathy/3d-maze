@@ -1,4 +1,4 @@
-import { FiniteStateMachine } from '../../Utils/FiniteStateMachine'
+import FiniteStateMachine from '../../Utils/FiniteStateMachine'
 import { IdleState, JumpState, RunState, WalkState } from './States'
 
 export default class CharacterFSM extends FiniteStateMachine {

@@ -5,15 +5,17 @@ import { AnimationMixer, Quaternion, Vector3 } from "three"
 
 export default class CharacterController {
 
-    constructor()
+    constructor(file)
     {
+        this.file = file
+        
         this.maze = new Maze()
         this.scene = this.maze.scene
         this.resources = this.maze.resources
         this.time = this.maze.time
 
         // Setup
-        this.acceleration = new Vector3(1, 0.25, 5.0)
+        this.acceleration = new Vector3(1.0, 0.25, 1.0)
         this.deceleration = new Vector3(-0.0005, -0.0001, -5.0)
         this.velocity = new Vector3(0,0,0)     
         
@@ -27,7 +29,7 @@ export default class CharacterController {
 
     setModel()
     {
-        this.model = this.resources.items.PlayerModel
+        this.model = this.resources.items[this.file]
         this.model.scale.set(0.005,0.005,0.005)
         
         this.scene.add(this.model)
@@ -57,8 +59,8 @@ export default class CharacterController {
         this.animation.actions.run = this.animation.mixer.clipAction(this.resources.items.RunAnimation.animations[0])
         this.animation.actions.jump = this.animation.mixer.clipAction(this.resources.items.JumpAnimation.animations[0])
 
-        // this.animation.actions.current = this.animation.actions.idle
-        // this.animation.actions.current.play()
+        this.animation.actions.current = this.animation.actions.idle
+        this.animation.actions.current.play()
 
         // this.animation.actions.current.play = (name) => {
         //     const newAction = this.animation.actions[name]
@@ -83,8 +85,7 @@ export default class CharacterController {
             v.z * this.deceleration.z,
         )
         FrameDeceleration.multiplyScalar(this.time.delta)
-        FrameDeceleration.z = Math.sign(FrameDeceleration.z) * Math.min(Math.abs(FrameDeceleration.z), Math.abs(v.z)
-        )
+        FrameDeceleration.z = Math.sign(FrameDeceleration.z) * Math.min( Math.abs(FrameDeceleration.z), Math.abs(v.z) )
 
         v.add(FrameDeceleration)
 
@@ -103,6 +104,7 @@ export default class CharacterController {
       
         if (this.stateMachine.currentState && this.stateMachine.currentState.Name == 'jump') {
             acc.multiplyScalar(0.0)
+            acc.y = 0
         }
     
         if (this.input.keys.forward) {
@@ -113,18 +115,19 @@ export default class CharacterController {
             v.z -= acc.z * this.time.delta * 0.0001
         }
 
-        if (this.input.keys.left) {
+        if (this.input.keys.left && this.input.keys.forward || this.input.keys.left && this.input.keys.backward) {
             A.set(0, 1, 0)
-            Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * this.acceleration.y)
+            Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
         }
 
-        if (this.input.keys.right) {
+        if (this.input.keys.right && this.input.keys.forward || this.input.keys.right && this.input.keys.backward) {
             A.set(0, 1, 0)
-            Q.setFromAxisAngle(A, 4.0 * -Math.PI * this.time.delta * this.acceleration.y)
+            Q.setFromAxisAngle(A, 4.0 * -Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
         }
           
+        controlObject.quaternion.copy(R);
 
         // Update Position
         const oldPosition = new Vector3()
