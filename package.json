@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "cannon": "^0.6.2",
+    "mathjs": "^10.6.1",
     "three": "^0.141.0"
   }
 }

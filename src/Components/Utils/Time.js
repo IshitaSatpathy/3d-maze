@@ -23,7 +23,7 @@ export default class Time extends EventEmitter {
         this.current = currentTime
         this.elasped = this.current - this.start
 
-        this.trigger('update')
+        this.trigger('tick')
 
         window.requestAnimationFrame(() => {
             this.frame()

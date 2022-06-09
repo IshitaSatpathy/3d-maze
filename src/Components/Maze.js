@@ -37,7 +37,7 @@ export default class Maze {
         })
 
         // Update event
-        this.time.on('update', () => {
+        this.time.on('tick', () => {
             this.update()
         })
     }

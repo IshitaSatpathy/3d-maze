@@ -106,7 +106,8 @@ export default class CharacterController {
             acc.multiplyScalar(0.0)
             acc.y = 0
         }
-    
+        
+        // Forward and Backward
         if (this.input.keys.forward) {
             v.z += acc.z * this.time.delta * 0.0001
         }
@@ -115,6 +116,7 @@ export default class CharacterController {
             v.z -= acc.z * this.time.delta * 0.0001
         }
 
+        // Rotation
         if (this.input.keys.left && this.input.keys.forward || this.input.keys.left && this.input.keys.backward) {
             A.set(0, 1, 0)
             Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * acc.y * 0.001)
