@@ -24,6 +24,16 @@ export default [
     //     path : `${resources}/textures/floor_texture_normal.png`
     // },
     {
+        name : 'wallColorTexture',
+        type : 'texture',
+        path : `${resources}/textures/Castle-Ashlar.jpg`
+    },
+    {
+        name : 'wallNormalTexture',
+        type : 'texture',
+        path : `${resources}/textures/Castle-Ashlar_normal.png`
+    },
+    {
         name : 'PlayerModel',
         type : 'fbxModel',
         path : `${resources}/models/ybot.fbx`
@@ -42,5 +52,10 @@ export default [
         name : 'RunAnimation',
         type : 'fbxModel',
         path : `${resources}/animations/ybot/Fast Run.fbx`
+    },
+    {
+        name : 'JumpAnimation',
+        type : 'fbxModel',
+        path : `${resources}/animations/ybot/Jumping.fbx`
     },
 ]

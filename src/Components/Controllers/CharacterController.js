@@ -1,10 +1,166 @@
-import InputController from "./InputController";
+import Maze from "../Maze"
+import InputController from "./InputController"
+import CharacterFSM from "../Controllers/CharacterFSM/CharacterFSM"
+import { AnimationMixer, Quaternion, Vector3 } from "three"
 
 export default class CharacterController {
+
     constructor()
     {
+        this.maze = new Maze()
+        this.scene = this.maze.scene
+        this.resources = this.maze.resources
+        this.time = this.maze.time
+
         // Setup
+        this.acceleration = new Vector3(1, 0.25, 5.0)
+        this.deceleration = new Vector3(-0.0005, -0.0001, -5.0)
+        this.velocity = new Vector3(0,0,0)     
+        
         this.input = new InputController()
+
+        this.setModel()
+        this.setAnimation()
+
+        this.stateMachine = new CharacterFSM(this.animation)
+    }
+
+    setModel()
+    {
+        this.model = this.resources.items.PlayerModel
+        this.model.scale.set(0.005,0.005,0.005)
+        
+        this.scene.add(this.model)
+
+        console.log(this.model)
+
+        for(let child of this.model.children)
+        {
+            if(child.material)
+            {
+                child.castShadow = true
+                child.receiveShadow = true
+            }
+        }
         
     }
+
+    setAnimation()
+    {
+        this.animation = {}
+        this.animation.mixer = new AnimationMixer(this.model)
+
+        this.animation.actions = {}
+
+        this.animation.actions.idle = this.animation.mixer.clipAction(this.resources.items.IdleAnimation.animations[0])
+        this.animation.actions.walk = this.animation.mixer.clipAction(this.resources.items.WalkAnimation.animations[0])
+        this.animation.actions.run = this.animation.mixer.clipAction(this.resources.items.RunAnimation.animations[0])
+        this.animation.actions.jump = this.animation.mixer.clipAction(this.resources.items.JumpAnimation.animations[0])
+
+        // this.animation.actions.current = this.animation.actions.idle
+        // this.animation.actions.current.play()
+
+        // this.animation.actions.current.play = (name) => {
+        //     const newAction = this.animation.actions[name]
+        //     const oldAction = this.animation.actions.current
+
+        //     newAction.reset()
+        //     newAction.play()
+        //     newAction.crossFadeFrom(oldAction, 0.5)
+            
+        //     this.animation.actions.current = newAction
+        // }
+    }
+
+    setMovement()
+    {
+        
+        const v = this.velocity
+
+        const FrameDeceleration = new Vector3(
+            v.x * this.deceleration.x,
+            v.y * this.deceleration.y,
+            v.z * this.deceleration.z,
+        )
+        FrameDeceleration.multiplyScalar(this.time.delta)
+        FrameDeceleration.z = Math.sign(FrameDeceleration.z) * Math.min(Math.abs(FrameDeceleration.z), Math.abs(v.z)
+        )
+
+        v.add(FrameDeceleration)
+
+        const controlObject = this.model
+
+        const Q = new Quaternion()
+        const A = new Vector3()
+        const R = controlObject.quaternion.clone()
+
+        const acc = this.acceleration.clone()
+        
+        // Update Keys
+        if (this.input.keys.shift) {
+            acc.multiplyScalar(2.0)
+          }
+      
+        if (this.stateMachine.currentState && this.stateMachine.currentState.Name == 'jump') {
+            acc.multiplyScalar(0.0)
+        }
+    
+        if (this.input.keys.forward) {
+            v.z += acc.z * this.time.delta * 0.0001
+        }
+
+        if (this.input.keys.backward) {
+            v.z -= acc.z * this.time.delta * 0.0001
+        }
+
+        if (this.input.keys.left) {
+            A.set(0, 1, 0)
+            Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * this.acceleration.y)
+            R.multiply(Q)
+        }
+
+        if (this.input.keys.right) {
+            A.set(0, 1, 0)
+            Q.setFromAxisAngle(A, 4.0 * -Math.PI * this.time.delta * this.acceleration.y)
+            R.multiply(Q)
+        }
+          
+
+        // Update Position
+        const oldPosition = new Vector3()
+
+        oldPosition.copy(controlObject.position)
+
+        const forward = new Vector3(0, 0, 1)
+        forward.applyQuaternion(controlObject.quaternion)
+        forward.normalize()
+
+        const sideways = new Vector3(1, 0, 0)
+        sideways.applyQuaternion(controlObject.quaternion)
+        sideways.normalize()
+
+        sideways.multiplyScalar(v.x * this.time.delta)
+        forward.multiplyScalar(v.z * this.time.delta)
+
+        controlObject.position.add(forward)
+        controlObject.position.add(sideways)
+
+        oldPosition.copy(controlObject.position)
+    }
+
+    update()
+    {
+        if(!this.model)
+            return
+
+        
+        this.stateMachine.update(this.input)
+
+        
+        this.setMovement()
+
+        if(this.animation.mixer)
+            this.animation.mixer.update(this.time.delta * 0.001)
+    }
+
 }

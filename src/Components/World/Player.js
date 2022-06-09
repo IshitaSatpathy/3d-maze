@@ -1,4 +1,5 @@
 import { AnimationMixer } from "three";
+import InputController from "../Controllers/InputController"
 import Maze from "../Maze";
 
 export default class Player {
@@ -9,9 +10,10 @@ export default class Player {
         this.resources = this.maze.resources
         this.time = this.maze.time
         
-
         this.setModel()
         this.setAnimation()
+
+        this.input = new InputController(this)
     }
 
     setModel()
@@ -53,7 +55,7 @@ export default class Player {
 
             newAction.reset()
             newAction.play()
-            newAction.crossFadeFrom(oldAction, 1)
+            newAction.crossFadeFrom(oldAction, 0.5)
             
             this.animation.actions.current = newAction
         }
