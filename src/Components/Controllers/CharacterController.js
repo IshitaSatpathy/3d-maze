@@ -30,11 +30,9 @@ export default class CharacterController {
     setModel()
     {
         this.model = this.resources.items[this.file]
-        this.model.scale.set(0.005,0.005,0.005)
+        this.model.scale.set(0.01,0.01,0.01)
         
         this.scene.add(this.model)
-
-        console.log(this.model)
 
         for(let child of this.model.children)
         {

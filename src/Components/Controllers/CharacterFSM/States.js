@@ -34,7 +34,7 @@ class IdleState extends State
             idleAction.enabled = true
             idleAction.setEffectiveTimeScale(1.0)
             idleAction.setEffectiveWeight(1.0)
-            idleAction.crossFadeFrom(prevAction, 0.5, true)
+            idleAction.crossFadeFrom(prevAction, 0.2, true)
             idleAction.play()
         }
         else

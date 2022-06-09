@@ -23,7 +23,7 @@ export default class Camera {
             100
         )
 
-        this.instance.position.set(-2,2,0.7)
+        this.instance.position.set(-5,4,0)
         this.scene.add(this.instance)
     }
 
@@ -31,6 +31,7 @@ export default class Camera {
     {
         this.controls = new OrbitControls(this.instance, this.canvas)
         this.controls.enableDamping = true
+        this.controls.enabled = true
     }
 
     resize()
