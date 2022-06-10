@@ -1,10 +1,10 @@
-import Maze from "../../Maze"
-import CharacterFSM from "./CharacterFSM"
+import NpcFSM from "./NpcFSM"
 import { AnimationMixer, Quaternion, Vector3 } from "three"
 import { SkeletonHelper } from "three"
-import CharacterInput from "./CharacterInput"
+import NpcInput from "./NpcInput"
+import Maze from "../../Maze"
 
-export default class CharacterController {
+export default class NpcController {
 
     constructor(file)
     {
@@ -20,7 +20,7 @@ export default class CharacterController {
         this.deceleration = new Vector3(-0.0005, -0.0001, -5.0)
         this.velocity = new Vector3(0,0,0)     
         
-        this.input = new CharacterInput()
+        this.input = new NpcInput()
 
         this.setModel()
         this.setAnimation()
@@ -28,7 +28,7 @@ export default class CharacterController {
         this.helper = new SkeletonHelper(this.model)
         this.scene.add(this.helper)
 
-        this.stateMachine = new CharacterFSM(this.animation)
+        this.stateMachine = new NpcFSM(this.animation)
     }
 
     setModel()
@@ -56,10 +56,10 @@ export default class CharacterController {
 
         this.animation.actions = {}
 
-        this.animation.actions.idle = this.animation.mixer.clipAction(this.resources.items.Player_Idle.animations[0])
-        this.animation.actions.walk = this.animation.mixer.clipAction(this.resources.items.Player_Walk.animations[0])
-        this.animation.actions.run = this.animation.mixer.clipAction(this.resources.items.Player_Run.animations[0])
-        this.animation.actions.jump = this.animation.mixer.clipAction(this.resources.items.Player_Jump.animations[0])
+        this.animation.actions.idle = this.animation.mixer.clipAction(this.resources.items.IdleAnimation.animations[0])
+        this.animation.actions.walk = this.animation.mixer.clipAction(this.resources.items.WalkAnimation.animations[0])
+        this.animation.actions.run = this.animation.mixer.clipAction(this.resources.items.RunAnimation.animations[0])
+        this.animation.actions.jump = this.animation.mixer.clipAction(this.resources.items.JumpAnimation.animations[0])
 
         this.animation.actions.current = this.animation.actions.idle
         this.animation.actions.current.play()

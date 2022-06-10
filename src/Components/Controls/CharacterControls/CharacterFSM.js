@@ -8,7 +8,7 @@ export default class CharacterFSM extends FiniteStateMachine {
 
         this.animation = animation
         
-        this.AddStates()        
+        this.AddStates()
     }
 
     AddStates()

@@ -1,18 +1,19 @@
-import { IdleState } from "../Controls/CharacterControls/States"
-
 export default class FiniteStateMachine {
 
     constructor()
     {
         // States
         this.states = {}
-        this.currentState = new IdleState(this)
-
+        
+        this.currentState = null
     }
     
     AddState(name, type)
     {
         this.states[name] = type
+
+        if(this.currentState == null)
+            this.currentState = new this.states[name](this)
     }
 
     SetState(name) {

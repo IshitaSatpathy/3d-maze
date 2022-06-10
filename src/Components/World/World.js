@@ -19,7 +19,7 @@ export default class World {
             // Setup
             this.floor = new Floor()
             
-            this.character = new CharacterController('PlayerModel')
+            this.character = new CharacterController('Player_model')
             this.thirdPersonCamera = new ThirdPersonCamera(this.character)
             // this.firstPersonCamera = new FirstPersonCamera(this.camera)
 
