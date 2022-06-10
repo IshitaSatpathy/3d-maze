@@ -47,6 +47,7 @@ export default class World {
                 this.enemy.setMovement(false)
             else
                 this.enemy.setMovement(true)
+            
 
             this.enemy.update()
         }

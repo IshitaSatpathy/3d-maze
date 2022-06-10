@@ -1,6 +1,7 @@
 import { Scene } from "three"
 import sources from "../sources"
 import Camera from "./Camera"
+import Physics from "./Physics/Physics"
 import Renderer from "./Renderer"
 import Resources from "./Utils/Resources"
 import Screen from "./Utils/Screen"
@@ -30,6 +31,7 @@ export default class Maze {
         
         this.renderer = new Renderer()
         this.world = new World()
+        this.physics = new Physics().world
         
         // Resize event
         this.screen.on('resize', () => {

@@ -3,9 +3,15 @@ import { MeshStandardMaterial } from 'three'
 import { Mesh } from 'three'
 import './assets/style.css'
 import Maze from './Components/Maze'
+import CANNON from 'cannon'
 
 const maze = new Maze(document.querySelector('canvas.webgl'))
 
+
+const world = new CANNON.World()
+world.broadphase = new CANNON.SAPBroadphase(world)
+world.allowSleep = true
+world.gravity.set(0, - 9.82, 0)
 
 const CreateWall = (length , rotate , position) => {
 
@@ -21,21 +27,31 @@ const CreateWall = (length , rotate , position) => {
     mesh.position.copy(position)
     maze.scene.add(mesh)
 
+    // Default material
+    const defaultMaterial = new CANNON.Material('default')
+    const defaultContactMaterial = new CANNON.ContactMaterial(
+        defaultMaterial,
+        defaultMaterial,
+        {
+            friction: 0.1,
+            restitution: 0.7
+        }
+    )
     
-    // const shape = new CANNON.Box(new CANNON.Vec3(length*0.5, 2*0.5, 0.2*0.5))
-    // const body = new CANNON.Body({
-    //     mass : 0,
-    //     shape : shape,
-    //     material : defaultMaterial
-    // })
-    // body.position.copy(position)
-    // world.addBody(body)
+    const shape = new CANNON.Box(new CANNON.Vec3(length*0.5, 2*0.5, 0.2*0.5))
+    const body = new CANNON.Body({
+        mass : 0,
+        shape : shape,
+        material : defaultMaterial
+    })
+    body.position.copy(position)
+    world.addBody(body)
 
     
     if(rotate)
     {
-        // body.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0) , Math.PI * 0.5) 
-        // mesh.quaternion.copy(body.quaternion)
+        body.quaternion.setFromAxisAngle(new CANNON.Vec3(0,1,0) , Math.PI * 0.5) 
+        mesh.quaternion.copy(body.quaternion)
 
         mesh.rotation.y = Math.PI * 0.5
     }
@@ -92,4 +108,3 @@ CreateWall( 44 , false , { x : -4, y : 2.5, z : -28})
 CreateWall( 30 , false , { x : -4, y : 2.5, z : -23})
 CreateWall( 5 , true , { x : 11, y : 2.5, z : -20.5})
 CreateWall( 40 , true , { x : -25, y : 2.5, z : -4})
-
