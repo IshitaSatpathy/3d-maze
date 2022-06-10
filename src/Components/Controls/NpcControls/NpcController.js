@@ -74,7 +74,7 @@ export default class NpcController {
         // }
     }
 
-    setMovement(prop)
+    setMovement(move)
     { 
         // const dirToPlayer = this.FindPlayer()
 
@@ -111,7 +111,7 @@ export default class NpcController {
         //     acc.y = 0
         // }
         
-        this.input.keys.forward = prop
+        this.input.keys.forward = move
         // Forward and Backward
         if (this.input.keys.forward) {
             v.z += acc.z * this.time.delta * 0.0001

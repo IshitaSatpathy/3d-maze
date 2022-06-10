@@ -44,13 +44,9 @@ export default class World {
             this.enemy.model.lookAt(this.character.model.position)
 
             if(this.enemy.model.position.distanceTo(this.character.model.position) <= 1)
-            {
                 this.enemy.setMovement(false)
-            }
             else
-            {
                 this.enemy.setMovement(true)
-            }
 
             this.enemy.update()
         }
