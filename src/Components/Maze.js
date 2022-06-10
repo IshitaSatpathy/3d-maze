@@ -1,11 +1,11 @@
 import { Scene } from "three"
+import sources from "../sources"
 import Camera from "./Camera"
 import Renderer from "./Renderer"
 import Resources from "./Utils/Resources"
 import Screen from "./Utils/Screen"
 import Time from "./Utils/Time"
 import World from "./World/World"
-import sources from "./sources"
 
 let instance = null
 

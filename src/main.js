@@ -1,7 +1,7 @@
 import { BoxBufferGeometry } from 'three'
 import { MeshStandardMaterial } from 'three'
 import { Mesh } from 'three'
-import './Assets/style.css'
+import './assets/style.css'
 import Maze from './Components/Maze'
 
 const maze = new Maze(document.querySelector('canvas.webgl'))
@@ -91,3 +91,4 @@ CreateWall( 44 , false , { x : -4, y : 1, z : -28})
 CreateWall( 30 , false , { x : -4, y : 1, z : -23})
 CreateWall( 5 , true , { x : 11, y : 1, z : -20.5})
 CreateWall( 40 , true , { x : -25, y : 1, z : -4})
+
