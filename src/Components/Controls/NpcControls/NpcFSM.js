@@ -1,5 +1,5 @@
 import FiniteStateMachine from '../../Utils/FiniteStateMachine'
-import { IdleState } from './States'
+import { IdleState, WalkState, AttackState, DeathState } from './States'
 
 export default class NpcFSM extends FiniteStateMachine {
     constructor(animation)
@@ -14,5 +14,8 @@ export default class NpcFSM extends FiniteStateMachine {
     AddStates()
     {
         this.AddState('idle', IdleState )
+        this.AddState('walk', WalkState )
+        this.AddState('attack', AttackState )
+        this.AddState('death', DeathState )
     }
 }

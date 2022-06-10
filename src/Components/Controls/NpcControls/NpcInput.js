@@ -2,7 +2,7 @@ export default class NpcInput {
     constructor()
     {
         
-        this._keys = {
+        this.keys = {
             forward: false,
             backward: false,
             left: false,

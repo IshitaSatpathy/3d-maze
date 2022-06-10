@@ -56,10 +56,8 @@ export default class NpcController {
 
         this.animation.actions = {}
 
-        this.animation.actions.idle = this.animation.mixer.clipAction(this.resources.items.IdleAnimation.animations[0])
-        this.animation.actions.walk = this.animation.mixer.clipAction(this.resources.items.WalkAnimation.animations[0])
-        this.animation.actions.run = this.animation.mixer.clipAction(this.resources.items.RunAnimation.animations[0])
-        this.animation.actions.jump = this.animation.mixer.clipAction(this.resources.items.JumpAnimation.animations[0])
+        this.animation.actions.idle = this.animation.mixer.clipAction(this.resources.items.Player_Idle.animations[0])
+        this.animation.actions.walk = this.animation.mixer.clipAction(this.resources.items.Player_Walk.animations[0])
 
         this.animation.actions.current = this.animation.actions.idle
         this.animation.actions.current.play()
@@ -76,8 +74,10 @@ export default class NpcController {
         // }
     }
 
-    setMovement()
+    setMovement(prop)
     { 
+        // const dirToPlayer = this.FindPlayer()
+
         const v = this.velocity
 
         const FrameDeceleration = new Vector3(
@@ -96,19 +96,22 @@ export default class NpcController {
         const A = new Vector3()
         const R = controlObject.quaternion.clone()
 
+        // this.input.keys.forward = false
+
         const acc = this.acceleration.clone()
         
-        // Update Keys
-        if (this.input.keys.shift) {
-            acc.multiplyScalar(3.5)
-            acc.y = 0.3
-          }
+        // Update Movement
+        // if (this.input.keys.shift) {
+        //     acc.multiplyScalar(3.5)
+        //     acc.y = 0.3
+        //   }
       
-        if (this.stateMachine.currentState && this.stateMachine.currentState.Name == 'jump') {
-            acc.multiplyScalar(0.0)
-            acc.y = 0
-        }
+        // if (this.stateMachine.currentState && this.stateMachine.currentState.Name == 'jump') {
+        //     acc.multiplyScalar(0.0)
+        //     acc.y = 0
+        // }
         
+        this.input.keys.forward = prop
         // Forward and Backward
         if (this.input.keys.forward) {
             v.z += acc.z * this.time.delta * 0.0001
@@ -155,14 +158,14 @@ export default class NpcController {
         oldPosition.copy(controlObject.position)
     }
 
-    update()
+    update(prop)
     {
         if(!this.model)
             return
 
         this.stateMachine.update(this.input)
         
-        this.setMovement()
+        this.setMovement(prop)
 
         if(this.animation.mixer)
             this.animation.mixer.update(this.time.delta * 0.001)

@@ -61,4 +61,9 @@ export default [
         type : 'fbxModel',
         path : "/animations/ybot/Fast Jump.fbx"
     },
+    {
+        name : 'NPC_model',
+        type : 'fbxModel',
+        path : "/models/xbot.fbx"
+    },
 ]

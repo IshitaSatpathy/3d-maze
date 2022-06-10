@@ -1,4 +1,5 @@
 import CharacterController from "../Controls/CharacterControls/CharacterController"
+import NpcController from "../Controls/NpcControls/NpcController"
 import FirstPersonCamera from "../FirstPersonCamera"
 import Maze from "../Maze"
 import ThirdPersonCamera from "../ThirdPersonCamera"
@@ -23,6 +24,8 @@ export default class World {
             this.thirdPersonCamera = new ThirdPersonCamera(this.character)
             // this.firstPersonCamera = new FirstPersonCamera(this.camera)
 
+            this.enemy = new NpcController('NPC_model')
+
             this.environment = new Environment()
         })
     }
@@ -34,6 +37,22 @@ export default class World {
         {
             this.character.update()
             this.thirdPersonCamera.update()
+        }
+
+        if(this.enemy)
+        {
+            this.enemy.model.lookAt(this.character.model.position)
+
+            if(this.enemy.model.position.distanceTo(this.character.model.position) <= 1)
+            {
+                this.enemy.setMovement(false)
+            }
+            else
+            {
+                this.enemy.setMovement(true)
+            }
+
+            this.enemy.update()
         }
 
         // if(this.firstPersonCamera)
