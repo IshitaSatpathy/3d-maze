@@ -1,7 +1,7 @@
 import { Quaternion } from "three"
 import { MathUtils } from "three"
 import { Vector3 } from "three"
-import CharacterInput from "./Controllers/CharacterInput"
+import CharacterInput from "./Controls/CharacterControls/CharacterInput"
 import Maze from "./Maze"
 
 export default class FirstPersonCamera {

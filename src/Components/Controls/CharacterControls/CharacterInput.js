@@ -1,4 +1,4 @@
-import Maze from "../Maze"
+import Maze from "../../Maze"
 
 export default class CharacterInput{
     constructor()

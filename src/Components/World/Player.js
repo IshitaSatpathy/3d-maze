@@ -1,5 +1,5 @@
 import { AnimationMixer } from "three";
-import InputController from "../Controllers/InputController"
+import InputController from "../Controls/InputController"
 import Maze from "../Maze";
 
 export default class Player {

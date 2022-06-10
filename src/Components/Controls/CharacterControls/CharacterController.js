@@ -1,8 +1,8 @@
-import Maze from "../Maze"
-import CharacterInput from "./CharacterInput"
-import CharacterFSM from "../Controllers/CharacterFSM/CharacterFSM"
+import Maze from "../../Maze"
+import CharacterFSM from "./CharacterFSM"
 import { AnimationMixer, Quaternion, Vector3 } from "three"
 import { SkeletonHelper } from "three"
+import CharacterInput from "./CharacterInput"
 
 export default class CharacterController {
 

@@ -1,4 +1,4 @@
-import { IdleState } from "../Controllers/CharacterFSM/States"
+import { IdleState } from "../Controls/CharacterControls/States"
 
 export default class FiniteStateMachine {
 

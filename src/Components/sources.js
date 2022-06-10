@@ -26,7 +26,7 @@ export default [
     {
         name : 'wallColorTexture',
         type : 'texture',
-        path : `${resources}/textures/concrete3-albedo.png`
+        path : `${resources}/textures/concrete3-metallic.png`
     },
     {
         name : 'wallNormalTexture',
