@@ -1,8 +1,9 @@
-import Maze from "../../Maze"
+import Game from "../../Game"
 import CharacterFSM from "./CharacterFSM"
 import { AnimationMixer, Quaternion, Vector3 } from "three"
 import { SkeletonHelper } from "three"
 import CharacterInput from "./CharacterInput"
+import CANNON from "cannon"
 
 export default class CharacterController {
 
@@ -10,10 +11,11 @@ export default class CharacterController {
     {
         this.file = file
         
-        this.maze = new Maze()
-        this.scene = this.maze.scene
-        this.resources = this.maze.resources
-        this.time = this.maze.time
+        this.game = new Game()
+        this.scene = this.game.scene
+        this.resources = this.game.resources
+        this.time = this.game.time
+        this.physics = this.game.physics
 
         // Setup
         this.acceleration = new Vector3(1.0, 0.25, 1.0)
@@ -22,23 +24,24 @@ export default class CharacterController {
         
         this.input = new CharacterInput()
 
-        this.setModel()
+        this.setMesh()
         this.setAnimation()
+        this.setBody()
 
-        this.helper = new SkeletonHelper(this.model)
+        this.helper = new SkeletonHelper(this.mesh)
         this.scene.add(this.helper)
 
         this.stateMachine = new CharacterFSM(this.animation)
     }
 
-    setModel()
+    setMesh()
     {
-        this.model = this.resources.items[this.file]
-        this.model.scale.set(0.01,0.01,0.01)
+        this.mesh = this.resources.items[this.file]
+        this.mesh.scale.set(0.01,0.01,0.01)
         
-        this.scene.add(this.model)
+        this.scene.add(this.mesh)
 
-        for(let child of this.model.children)
+        for(let child of this.mesh.children)
         {
             if(child.material)
             {
@@ -52,7 +55,7 @@ export default class CharacterController {
     setAnimation()
     {
         this.animation = {}
-        this.animation.mixer = new AnimationMixer(this.model)
+        this.animation.mixer = new AnimationMixer(this.mesh)
 
         this.animation.actions = {}
 
@@ -76,6 +79,29 @@ export default class CharacterController {
         // }
     }
 
+    setBody()
+    {
+        const width = 1
+        const height = 1
+        const depth = 1
+        const position = {x:0, y:0, z:0}
+
+        const shape = new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, depth * 0.5))
+
+        const body = new CANNON.Body({
+            mass: 1,
+            position: new CANNON.Vec3(0, 3, 0),
+            shape: shape,
+            material: this.physics.defaultContactMaterial
+        })
+        body.position.copy(position)
+        // body.addEventListener('collide', playHitSound)
+
+        this.physics.addBody(body)
+
+        this.body = body
+    }
+
     setMovement()
     { 
         const v = this.velocity
@@ -89,8 +115,8 @@ export default class CharacterController {
         FrameDeceleration.z = Math.sign(FrameDeceleration.z) * Math.min( Math.abs(FrameDeceleration.z), Math.abs(v.z) )
 
         v.add(FrameDeceleration)
-
-        const controlObject = this.model
+        
+        const controlObject = this.mesh
 
         const Q = new Quaternion()
         const A = new Vector3()
@@ -123,12 +149,20 @@ export default class CharacterController {
             A.set(0, 1, 0)
             Q.setFromAxisAngle(A, 4.0 * Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
+            /*
+            .vmult() for CANNON
+            .multiply() for THREE
+            */
         }
 
         if (this.input.keys.right) {
             A.set(0, 1, 0)
             Q.setFromAxisAngle(A, 4.0 * -Math.PI * this.time.delta * acc.y * 0.001)
             R.multiply(Q)
+            /*
+            .vmult() for CANNON
+            .multiply() for THREE
+            */
         }
           
         controlObject.quaternion.copy(R)
@@ -149,15 +183,23 @@ export default class CharacterController {
         sideways.multiplyScalar(v.x * this.time.delta)
         forward.multiplyScalar(v.z * this.time.delta)
 
+
         controlObject.position.add(forward)
         controlObject.position.add(sideways)
+        /*
+        .vadd() for CANNON
+        .add() for THREE
+        */
 
         oldPosition.copy(controlObject.position)
+
+        // this.mesh.position.copy(this.body.position)
+        // this.mesh.quaternion.copy(this.body.quaternion)
     }
 
     update()
     {
-        if(!this.model)
+        if(!this.mesh && !this.body)
             return
 
         this.stateMachine.update(this.input)
@@ -166,6 +208,7 @@ export default class CharacterController {
 
         if(this.animation.mixer)
             this.animation.mixer.update(this.time.delta * 0.001)
+
     }
 
 }

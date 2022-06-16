@@ -1,17 +1,17 @@
 import { PerspectiveCamera } from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import Maze from "./Maze";
+import Game from "../Game";
 
 export default class Camera {
     constructor()
     {
-        this.maze = new Maze()
-        this.screen = this.maze.screen
-        this.scene = this.maze.scene
-        this.canvas = this.maze.canvas
+        this.game = new Game()
+        this.screen = this.game.screen
+        this.scene = this.game.scene
+        this.canvas = this.game.canvas
         
         this.setInstance()
-        this.setOrbitControls()
+        // this.setOrbitControls()
     }
 
     setInstance()
@@ -23,15 +23,15 @@ export default class Camera {
             100
         )
 
-        this.instance.position.set(-3,4,4)
+        this.instance.position.set(-3,1.5,4)
         this.scene.add(this.instance)
     }
 
     setOrbitControls()
     {
-        this.controls = new OrbitControls(this.instance, this.canvas)
-        this.controls.enableDamping = true
-        this.controls.enabled = false
+        this.orbitControls = new OrbitControls(this.instance, this.canvas)
+        this.orbitControls.enableDamping = true
+        this.orbitControls.enabled = true
     }
 
     resize()
@@ -42,6 +42,6 @@ export default class Camera {
 
     update()
     {
-        this.controls.update()
+        if(this.orbitControls) this.orbitControls.update()
     }
 }

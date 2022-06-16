@@ -1,14 +1,14 @@
 import { Vector3 } from "three"
-import Maze from "./Maze"
+import Game from "../Game"
 
 export default class ThirdPersonCamera {
 
     constructor(target)
     {
 
-        this.maze = new Maze()
-        this.time = this.maze.time
-        this.camera = this.maze.camera
+        this.game = new Game()
+        this.time = this.game.time
+        this.camera = this.game.camera
 
         this.target = target
 
@@ -19,8 +19,8 @@ export default class ThirdPersonCamera {
     CalculateIdealOffset() {
         const idealOffset = new Vector3(-0.5, 1.5, -2)
 
-        idealOffset.applyQuaternion(this.target.model.quaternion)
-        idealOffset.add(this.target.model.position)
+        idealOffset.applyQuaternion(this.target.mesh.quaternion)
+        idealOffset.add(this.target.mesh.position)
 
         return idealOffset
     }
@@ -28,8 +28,8 @@ export default class ThirdPersonCamera {
     CalculateIdealLookat() {
         const idealLookat = new Vector3(0, 3, 20)
 
-        idealLookat.applyQuaternion(this.target.model.quaternion)
-        idealLookat.add(this.target.model.position)
+        idealLookat.applyQuaternion(this.target.mesh.quaternion)
+        idealLookat.add(this.target.mesh.position)
 
         return idealLookat
     }

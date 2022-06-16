@@ -1,6 +1,6 @@
 import Game from "../../Game"
 
-export default class CharacterInput{
+export default class FPInput{
     constructor()
     {
         this.game = new Game()

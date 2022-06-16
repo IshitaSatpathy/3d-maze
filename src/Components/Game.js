@@ -1,6 +1,6 @@
 import { Scene } from "three"
 import sources from "../sources"
-import Camera from "./Camera"
+import Camera from "./Camera/Camera"
 import Physics from "./Physics/Physics"
 import Renderer from "./Renderer"
 import Resources from "./Utils/Resources"
@@ -10,7 +10,7 @@ import World from "./World/World"
 
 let instance = null
 
-export default class Maze {
+export default class Game {
 
     constructor(canvas)
     {
@@ -32,6 +32,7 @@ export default class Maze {
         this.renderer = new Renderer()
         this.world = new World()
         this.physics = new Physics().world
+        this.timeStep = 1/60
         
         // Resize event
         this.screen.on('resize', () => {
@@ -55,6 +56,7 @@ export default class Maze {
     {
         this.camera.update()
         this.world.update()
+        this.physics.step(this.timeStep)
         this.renderer.update()
     }
 }

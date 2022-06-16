@@ -4,16 +4,16 @@ import { DirectionalLightHelper } from "three"
 import { AmbientLight } from "three"
 import { Mesh } from "three"
 import { DirectionalLight } from "three"
-import Maze from "../Maze"
+import Game from "../Game"
 
 
 export default class Environment {
 
     constructor()
     {
-        this.maze = new Maze()
-        this.scene = this.maze.scene
-        this.resources = this.maze.resources
+        this.game = new Game()
+        this.scene = this.game.scene
+        this.resources = this.game.resources
 
         this.setAmbientLight()
         this.setSunLight()

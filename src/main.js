@@ -2,16 +2,11 @@ import { BoxBufferGeometry } from 'three'
 import { MeshStandardMaterial } from 'three'
 import { Mesh } from 'three'
 import './assets/style.css'
-import Maze from './Components/Maze'
+import Game from './Components/Game'
 import CANNON from 'cannon'
 
-const maze = new Maze(document.querySelector('canvas.webgl'))
-
-
-const world = new CANNON.World()
-world.broadphase = new CANNON.SAPBroadphase(world)
-world.allowSleep = true
-world.gravity.set(0, - 9.82, 0)
+const game = new Game(document.querySelector('canvas.webgl'))
+const world = game.physics
 
 const CreateWall = (length , rotate , position) => {
 
@@ -23,26 +18,19 @@ const CreateWall = (length , rotate , position) => {
             color: '#333333',
         })
     )
+    
     mesh.receiveShadow = true
     mesh.position.copy(position)
-    maze.scene.add(mesh)
+    game.scene.add(mesh)
 
     // Default material
-    const defaultMaterial = new CANNON.Material('default')
-    const defaultContactMaterial = new CANNON.ContactMaterial(
-        defaultMaterial,
-        defaultMaterial,
-        {
-            friction: 0.1,
-            restitution: 0.7
-        }
-    )
+    const wallMaterial = new CANNON.Material('default')
     
     const shape = new CANNON.Box(new CANNON.Vec3(length*0.5, 2*0.5, 0.2*0.5))
     const body = new CANNON.Body({
         mass : 0,
         shape : shape,
-        material : defaultMaterial
+        material : wallMaterial,
     })
     body.position.copy(position)
     world.addBody(body)
@@ -56,15 +44,15 @@ const CreateWall = (length , rotate , position) => {
         mesh.rotation.y = Math.PI * 0.5
     }
 
-
 }
+
 
 // Border Walls
 CreateWall( 20 , false , { x : 0, y : 2.5, z : 10})
 CreateWall( 20 , true , { x : -10, y : 2.5, z : 0})
 CreateWall( 24 , true , { x : 10, y : 2.5, z : -2})
 
-//---------------Custom Maze---------------//
+//---------------Custom Game---------------//
 CreateWall( 8 , false , { x : 6, y : 2.5, z : -6})
 CreateWall( 8 , true , { x : 2, y : 2.5, z : -2})
 CreateWall( 8 , false , { x : -2, y : 2.5, z : 2})

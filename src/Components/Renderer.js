@@ -2,16 +2,16 @@ import { PCFSoftShadowMap } from "three";
 import { ReinhardToneMapping } from "three";
 import { sRGBEncoding } from "three";
 import { WebGLRenderer } from "three";
-import Maze from "./Maze";
+import Game from "./Game";
 
 export default class Renderer{
     constructor()
     {
-        this.maze = new Maze()
-        this.canvas = this.maze.canvas
-        this.screen = this.maze.screen
-        this.scene = this.maze.scene
-        this.camera = this.maze.camera
+        this.game = new Game()
+        this.canvas = this.game.canvas
+        this.screen = this.game.screen
+        this.scene = this.game.scene
+        this.camera = this.game.camera
 
         this.setInstance()
     }

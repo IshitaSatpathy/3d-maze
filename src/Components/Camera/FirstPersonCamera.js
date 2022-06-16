@@ -1,16 +1,16 @@
 import { Quaternion } from "three"
 import { MathUtils } from "three"
 import { Vector3 } from "three"
-import CharacterInput from "./Controls/CharacterControls/CharacterInput"
-import Maze from "./Maze"
+import CharacterInput from "../Controls/CharacterControls/CharacterInput"
+import Game from "../Game"
 
 export default class FirstPersonCamera {
 
     constructor(camera)
     {
-        this.maze = new Maze()
-        this.time = this.maze.time
-        this.screen = this.maze.screen
+        this.game = new Game()
+        this.time = this.game.time
+        this.screen = this.game.screen
         this.camera = camera
         this.instance = this.camera.instance
 

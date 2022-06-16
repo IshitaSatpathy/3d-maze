@@ -2,7 +2,7 @@ import NpcFSM from "./NpcFSM"
 import { AnimationMixer, Quaternion, Vector3 } from "three"
 import { SkeletonHelper } from "three"
 import NpcInput from "./NpcInput"
-import Maze from "../../Maze"
+import Game from "../../Game"
 
 export default class NpcController {
 
@@ -10,10 +10,10 @@ export default class NpcController {
     {
         this.file = file
         
-        this.maze = new Maze()
-        this.scene = this.maze.scene
-        this.resources = this.maze.resources
-        this.time = this.maze.time
+        this.game = new Game()
+        this.scene = this.game.scene
+        this.resources = this.game.resources
+        this.time = this.game.time
 
         // Setup
         this.acceleration = new Vector3(1.0, 0.25, 1.0)
@@ -22,23 +22,23 @@ export default class NpcController {
         
         this.input = new NpcInput()
 
-        this.setModel()
+        this.setMesh()
         this.setAnimation()
 
-        this.helper = new SkeletonHelper(this.model)
+        this.helper = new SkeletonHelper(this.mesh)
         this.scene.add(this.helper)
 
         this.stateMachine = new NpcFSM(this.animation)
     }
 
-    setModel()
+    setMesh()
     {
-        this.model = this.resources.items[this.file]
-        this.model.scale.set(0.01,0.01,0.01)
+        this.mesh = this.resources.items[this.file]
+        this.mesh.scale.set(0.01,0.01,0.01)
         
-        this.scene.add(this.model)
+        this.scene.add(this.mesh)
 
-        for(let child of this.model.children)
+        for(let child of this.mesh.children)
         {
             if(child.material)
             {
@@ -52,7 +52,7 @@ export default class NpcController {
     setAnimation()
     {
         this.animation = {}
-        this.animation.mixer = new AnimationMixer(this.model)
+        this.animation.mixer = new AnimationMixer(this.mesh)
 
         this.animation.actions = {}
 
@@ -90,7 +90,7 @@ export default class NpcController {
 
         v.add(FrameDeceleration)
 
-        const controlObject = this.model
+        const controlObject = this.mesh
 
         const Q = new Quaternion()
         const A = new Vector3()
@@ -160,7 +160,7 @@ export default class NpcController {
 
     update(prop)
     {
-        if(!this.model)
+        if(!this.mesh)
             return
 
         this.stateMachine.update(this.input)

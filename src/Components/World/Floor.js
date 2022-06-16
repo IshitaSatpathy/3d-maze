@@ -4,15 +4,15 @@ import { Mesh } from "three";
 import { RepeatWrapping } from "three";
 import { PlaneGeometry } from "three";
 import CANNON from "cannon";
-import Maze from "../Maze";
+import Game from "../Game";
 
 export default class Floor {
     constructor()
     {
-        this.maze = new Maze()
-        this.scene = this.maze.scene
-        this.resources = this.maze.resources
-        this.physics = this.maze.physics
+        this.game = new Game()
+        this.scene = this.game.scene
+        this.resources = this.game.resources
+        this.physics = this.game.physics
 
         this.setGeometry()
         this.setTextures()
@@ -70,5 +70,8 @@ export default class Floor {
         floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(- 1, 0, 0), Math.PI * 0.5)
 
         this.physics.addBody(floorBody)
+
+        this.body = floorBody
+        this.body.material = this.physics.defaultContactMaterial
     }
 }
